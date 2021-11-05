@@ -42,6 +42,9 @@ const init = (options: string[]) => {
     case "NEXT":
       if (options.length >= 5) return new Init(command.NEXT, options[4]);
       return new Init(command.NEXT);
+    case "GRAPHQL":
+      if (options.length >= 5) return new Init(command.GRAPHQL, options[4]);
+      return new Init(command.GRAPHQL);
     default:
       return console.log("No valid command given");
   }
@@ -90,18 +93,22 @@ const menu = async () => {
               name: "Nextjs Boilerplate",
               value: "NEXT",
             },
+            {
+              name: "GraphQl Boilerplate",
+              value: "GRAPHQL",
+            },
           ],
         },
       ]);
 
-      let nextProjectName;
+      let projectName;
 
-      if (whatToInit.action === "NEXT") {
-        nextProjectName = await inq.prompt([
+      if (whatToInit.action === "NEXT" || whatToInit.action === "GRAPHQL") {
+        projectName = await inq.prompt([
           {
             type: "input",
             name: "name",
-            message: "What do you want to call your next project?",
+            message: "What do you want to call your project?",
           },
         ]);
       }
@@ -111,7 +118,7 @@ const menu = async () => {
         "undefined",
         output.command,
         whatToInit.action,
-        nextProjectName.name,
+        projectName.name,
       ]);
   }
 };

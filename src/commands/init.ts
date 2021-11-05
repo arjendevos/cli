@@ -29,6 +29,11 @@ export default class Init {
       this.projectName = projectName;
       this.addNextBoilerplate();
     }
+
+    if (commandOption === command.GRAPHQL) {
+      this.projectName = projectName;
+      this.addGraphQlBoilerplate();
+    }
   }
 
   private initPackageJson() {
@@ -69,6 +74,30 @@ export default class Init {
     if (name === undefined || name === "") name = "next-ts-boilerplate";
     ChildProcess.execSync(
       `git clone https://github.com/arjendevos/next-ts-boilerplate.git ${name}`
+    );
+    if (name === ".") {
+      const pathName = process.cwd();
+      const pathArray = pathName.split("\\");
+      name = pathArray[pathArray.length - 1];
+    } else {
+      process.chdir(`${this.usingDir}/${name}`);
+    }
+    const packageJson = JSON.parse(fs.readFileSync("./package.json", "utf8"));
+    packageJson["name"] = name;
+    fs.writeFileSync("./package.json", JSON.stringify(packageJson, null, 4));
+    ChildProcess.execSync(`yarn install`);
+    ChildProcess.execSync(`git remote rm origin`);
+    return console.log(
+      "Everything installed and ready for use. Change the origin with git push -u <remote_name> <local_branch_name>"
+    );
+  }
+
+  private addGraphQlBoilerplate() {
+    process.chdir(this.usingDir);
+    let name = this.projectName;
+    if (name === undefined || name === "") name = "graphql-boilerplate";
+    ChildProcess.execSync(
+      `git clone https://github.com/arjendevos/graphql-boilerplate.git ${name}`
     );
     if (name === ".") {
       const pathName = process.cwd();
