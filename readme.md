@@ -4,9 +4,8 @@ This is a CLI tool for opening projects or creating a new next-ts project with m
 
 ## Getting started
 
-The Open action will probably not (yet) work on your System because it is custom made for my own System.
-
-To make it work change the start directory inside `directory.ts`:
+The OPEN action will probably not work on your system but you can try to change the start directory inside `directory.ts`:
+The start directory is the directory where it start with searching.
 
 ```ts
 private startDir = "C:/Users/arvoc/Documents/Home"
